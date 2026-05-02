@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  hotnews-collector:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hotnews-collector
+    restart: unless-stopped
+    volumes:
+      # 挂载配置文件
+      - ./config:/app/config
+      # 挂载日志目录
+      - ./logs:/app/logs
+      # 挂载输出目录
+      - ./output:/app/output
+    env_file:
+      # 环境变量文件
+      - .env
+    environment:
+      - TZ=Asia/Shanghai
+      - LOG_LEVEL=INFO
+    # 资源限制
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    # 健康检查
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    # 日志配置
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # 可选：定时执行模式（不使用内置调度器）
+  hotnews-cron:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hotnews-cron
+    restart: "no"
+    volumes:
+      - ./config:/app/config
+      - ./logs:/app/logs
+      - ./output:/app/output
+    env_file:
+      - .env
+    environment:
+      - TZ=Asia/Shanghai
+    # 使用cron表达式定时执行
+    entrypoint: ["/bin/sh", "-c"]
+    command: >
+      "echo '0 19 * * * python -m src.main --run-once' > /etc/crontabs/root && crond -f -l 2"
+    profiles:
+      - cron

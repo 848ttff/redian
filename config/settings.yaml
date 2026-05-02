@@ -1,0 +1,38 @@
+# 系统配置
+system:
+  name: "热点信息收集系统"
+  version: "1.0.0"
+  log_level: "INFO"
+  timezone: "Asia/Shanghai"
+  debug: false
+
+# 调度配置
+scheduler:
+  enabled: true
+  cron_expression: "0 19 * * *"  # 每天19:00执行
+  retry_count: 3
+  retry_delay: 300  # 重试延迟（秒）
+
+# 邮件配置
+email:
+  enabled: true
+  smtp_server: "smtp.example.com"
+  smtp_port: 587
+  use_tls: true
+  sender_name: "热点资讯日报"
+  # 敏感信息从环境变量读取
+  sender_email: "${EMAIL_SENDER}"
+  sender_password: "${EMAIL_PASSWORD}"
+  recipients:
+    - "recipient@example.com"
+  retry_count: 3
+  retry_delay: 5
+
+# 内容生成配置
+content:
+  max_items_per_source: 10
+  total_max_items: 30
+  summary_length: 500
+  content_max_length: 150
+  template: "daily_summary.html"
+  title: "今日热点资讯"

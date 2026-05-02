@@ -1,0 +1,81 @@
+# 信息源配置
+sources:
+  # RSS源配置
+  rss_feeds:
+    enabled: true
+    sources:
+      - name: "新浪新闻"
+        url: "https://feed.mix.sina.com.cn/api/roll/get?pageid=153&lid=2509&k=&num=50&page=1&r=0.123&callback="
+        category: "新闻"
+        max_items: 10
+        interval: 3600  # 访问间隔（秒）
+      
+      - name: "36氪"
+        url: "https://36kr.com/feed"
+        category: "科技"
+        max_items: 8
+        interval: 3600
+      
+      - name: "虎嗅网"
+        url: "https://www.huxiu.com/rss/0.xml"
+        category: "科技"
+        max_items: 8
+        interval: 3600
+      
+      - name: "少数派"
+        url: "https://sspai.com/feed"
+        category: "科技"
+        max_items: 6
+        interval: 3600
+
+  # 社交媒体配置
+  social_media:
+    enabled: true
+    
+    # 微博热搜
+    weibo:
+      enabled: true
+      max_items: 15
+      interval: 1800  # 30分钟访问一次
+      category: "社交媒体"
+    
+    # 知乎热榜
+    zhihu:
+      enabled: true
+      max_items: 10
+      interval: 1800
+      category: "问答社区"
+
+  # 新闻网站配置
+  news_sites:
+    enabled: true
+    sites:
+      - name: "新浪新闻"
+        site: "sina"
+        category: "新闻"
+        max_items: 10
+        interval: 3600
+      
+      - name: "网易新闻"
+        site: "163"
+        category: "新闻"
+        max_items: 10
+        interval: 3600
+      
+      - name: "腾讯新闻"
+        site: "qq"
+        category: "新闻"
+        max_items: 10
+        interval: 3600
+      
+      - name: "虎嗅网"
+        site: "huxiu"
+        category: "科技"
+        max_items: 8
+        interval: 3600
+      
+      - name: "36氪"
+        site: "36kr"
+        category: "科技"
+        max_items: 8
+        interval: 3600
